@@ -1,5 +1,6 @@
-# ROS Humble and Gazebo Ignition [dockerized]
+# ROS Humble and Gazebo 11 [dockerized]
 
+## Old version steps:
 ## Pre installation steps: 
 
 1. Nvidia container Toolkit : 
@@ -26,7 +27,7 @@ install xhost for GUI
 xhost +local:docker
 ```
 
-## Running the container
+## Containerizing >
 
 1. build the dockerfile: 
 ```
@@ -45,5 +46,33 @@ docker run --gpus all -it --rm --net=host \
 
 ```
 
+
+## New Version Steps [ no cuda support :alert: ]
+### preinstallation
+skip the nvidia-toolkit installation
+1. install xhost for GUI
+```
+xhost +local:docker
+```
+
+## Containerizing > 
+
+1. build the dockerfile: 
+```
+docker build -t my_ros_container .
+```
+
+2. Run the docker container : 
+```
+docker run -it --rm --net=host \
+    --env="DISPLAY" \
+    --env="QT_X11_NO_MITSHM=1" \
+    --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" \
+    --volume="/path/to/host/directory:/home/gazebo_ros" \
+    ros2-humble-gazebo
+```
+
+
 ## inside the container:
 for now it's empty as myself , later on i'll add stuff
+
