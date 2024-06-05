@@ -74,5 +74,22 @@ docker run -it --rm --net=host \
 
 
 ## inside the container:
-for now it's empty as myself , later on i'll add stuff
+1. installing ompl: 
+- get the volume of gazebo_ros into the container while building by using the command : 
+```
+docker run -it --rm --net=host \
+    --env="DISPLAY" \
+    --env="QT_X11_NO_MITSHM=1" \
+    --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" \
+    --volume=".:/home/gazebo_ros" \
+    ros2-humble-gazebo
+```
+
+    NOTE : the above makes the current directory as a volume of your docker container 
+
+- navigate into the directory with install-ompl-ubuntu.sh script and run the command : 
+```
+chmod +x *
+./install-ompl-ubuntu.sh --python
+```
 
