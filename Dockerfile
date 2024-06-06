@@ -51,6 +51,15 @@ RUN mkdir -p /ros2_ws/src
 # Set the working directory
 WORKDIR /home
 
+# installing OMPL
+    # Copy the install script
+    COPY gazebo_ros/OMPL/install-ompl-ubuntu.sh /
+    # Give elevated permissions
+    RUN chmod +x /install-ompl-ubuntu.sh
+    # Run the install script
+    RUN /install-ompl-ubuntu.sh
+
+
 # Copy the entrypoint script
 COPY entrypoint.sh /
 
