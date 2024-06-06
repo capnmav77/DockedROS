@@ -1,4 +1,3 @@
-# Use the official Ubuntu 22.04 LTS (Jammy) image as the base
 FROM ubuntu:22.04
 
 # Set the locale
@@ -41,24 +40,25 @@ RUN apt-get update && apt-get install -y \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-
 # Source the ROS 2 setup script 
 RUN echo "source /opt/ros/humble/setup.bash" >> ~/.bashrc
 
 # Create a workspace directory
 RUN mkdir -p /ros2_ws/src
 
-# Set the working directory
-WORKDIR /home
-
 # installing OMPL
-    # Copy the install script
-    COPY gazebo_ros/OMPL/install-ompl-ubuntu.sh /
-    # Give elevated permissions
-    RUN chmod +x /install-ompl-ubuntu.sh
-    # Run the install script
-    RUN /install-ompl-ubuntu.sh
+# Copy the install script
+COPY gazebo_ros/OMPL/install-ompl-ubuntu.sh /
+# Give elevated permissions
+RUN chmod +x /install-ompl-ubuntu.sh
+# Run the install script
+RUN /install-ompl-ubuntu.sh
 
+# Create a directory for persistent data
+RUN mkdir -p /persistent_data
+
+# Set the volume for persistence
+VOLUME /persistent_data
 
 # Copy the entrypoint script
 COPY entrypoint.sh /

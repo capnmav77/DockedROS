@@ -36,7 +36,7 @@ docker build -t my_ros_container .
 
 2. Run the docker container : 
 ```
-docker run --gpus all -it --rm --net=host \
+docker run --gpus all -it --net=host \
     --env NVIDIA_DRIVER_CAPABILITIES=all \
     --env="DISPLAY" \
     --env="QT_X11_NO_MITSHM=1" \
@@ -64,32 +64,15 @@ docker build -t my_ros_container .
 
 2. Run the docker container : 
 ```
-docker run -it --rm --net=host \
+docker run -it --net=host --privileged \
     --env="DISPLAY" \
     --env="QT_X11_NO_MITSHM=1" \
     --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" \
-    --volume="/path/to/host/directory:/home/gazebo_ros" \
+    -v "/home/neo/Documents/FREDBOTS2.0/Bot_Volume/:/persistent_data/" \
     ros2-humble-gazebo
 ```
 
 
 ## inside the container:
-1. installing ompl: 
-- get the volume of gazebo_ros into the container while building by using the command : 
-```
-docker run -it --rm --net=host \
-    --env="DISPLAY" \
-    --env="QT_X11_NO_MITSHM=1" \
-    --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" \
-    --volume=".:/home/gazebo_ros" \
-    ros2-humble-gazebo
-```
-
-    NOTE : the above makes the current directory as a volume of your docker container 
-
-- navigate into the directory with install-ompl-ubuntu.sh script and run the command : 
-```
-chmod +x *
-./install-ompl-ubuntu.sh --python
-```
+it's basically a ubuntu image with ros2 and gazebo installed , running scripts and required stuff should be done in persistent_data folder as this is directly attached to the users directory , you can also create a docker volume to attach it to .
 
