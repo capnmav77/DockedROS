@@ -64,15 +64,15 @@ Below are the different versions that can be used as base templates
    ```
 
 2. Run the docker container : 
-```
-docker run -it --rm --net=host --privileged \
-    --env="DISPLAY" \
-    --env="QT_X11_NO_MITSHM=1" \
-    --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" \
-    -v "/home/neo/Documents/FREDBOTS2.0/Bot_Volume/ros2_ws/src:/ros2_ws/src" \
-    -p 2222:22 \
-    ros2-humble-gazebo
-```
+    ```
+    docker run -it --rm --net=host --privileged \
+        --env="DISPLAY" \
+        --env="QT_X11_NO_MITSHM=1" \
+        --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" \
+        -v "/home/neo/Documents/FREDBOTS2.0/Bot_Volume_2/ros2_ws/src:/ros2_ws/src" \
+        -p 2222:22 \
+        ros2-humble-gazebo
+    ```
 
 #### Inside the Container:
 

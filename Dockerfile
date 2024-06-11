@@ -20,6 +20,8 @@ RUN apt-get update && apt-get install -y \
     git \
     wget \
     openssh-server \    
+    python3 \
+    python3-pip \
     && rm -rf /var/lib/apt/lists/*
 
 # Set up sources for ROS 2 Humble 
@@ -41,11 +43,6 @@ RUN apt-get update && apt-get install -y \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# Install Python 3 and pip
-RUN apt-get update && apt-get install -y \
-    python3 \
-    python3-pip \
-    && rm -rf /var/lib/apt/lists/*
 
 # Install Colcon dependencies
 RUN apt-get update && apt-get install -y \
