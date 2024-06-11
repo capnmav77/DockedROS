@@ -64,15 +64,18 @@ docker build -t my_ros_container .
 
 2. Run the docker container : 
 ```
-docker run -it --net=host --privileged \
+docker run -it --rm --net=host --privileged \
     --env="DISPLAY" \
     --env="QT_X11_NO_MITSHM=1" \
     --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" \
-    -v "/home/neo/Documents/FREDBOTS2.0/Bot_Volume/:/persistent_data/" \
+    -v "/home/neo/Documents/FREDBOTS2.0/Bot_Volume/ros2_ws/src:/ros2_ws/src" \
+    -p 2222:22 \
     ros2-humble-gazebo
+
+
 ```
 
-
+g
 ## inside the container:
 it's basically a ubuntu image with ros2 and gazebo installed , running scripts and required stuff should be done in persistent_data folder as this is directly attached to the users directory , you can also create a docker volume to attach it to .
 

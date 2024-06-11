@@ -19,6 +19,7 @@ RUN apt-get update && apt-get install -y \
     curl \
     git \
     wget \
+    openssh-server \    
     && rm -rf /var/lib/apt/lists/*
 
 # Set up sources for ROS 2 Humble 
@@ -40,6 +41,24 @@ RUN apt-get update && apt-get install -y \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
+# Install Python 3 and pip
+RUN apt-get update && apt-get install -y \
+    python3 \
+    python3-pip \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Colcon dependencies
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    cmake \
+    python3-apt \
+    python3-rosdep \
+    python3-vcstool \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Colcon using pip
+RUN python3 -m pip install -U colcon-common-extensions
+
 # Source the ROS 2 setup script 
 RUN echo "source /opt/ros/humble/setup.bash" >> ~/.bashrc
 
@@ -54,17 +73,24 @@ RUN chmod +x /install-ompl-ubuntu.sh
 # Run the install script
 RUN /install-ompl-ubuntu.sh
 
-# Create a directory for persistent data
-RUN mkdir -p /persistent_data
-
 # Set the volume for persistence
-VOLUME /persistent_data
+VOLUME /ros2_ws/src
 
 # Copy the entrypoint script
 COPY entrypoint.sh /
 
 # Make the entrypoint script executable
 RUN chmod +x /entrypoint.sh
+
+#exposing the port
+RUN mkdir /var/run/sshd \
+    && echo 'root:password' | chpasswd \
+    && sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config \
+    && sed -i 's/#PasswordAuthentication yes/PasswordAuthentication yes/' /etc/ssh/sshd_config \
+    && ssh-keygen -A
+
+# Expose SSH port
+EXPOSE 22
 
 # Set the entrypoint script as the command to run
 ENTRYPOINT ["/entrypoint.sh"]
