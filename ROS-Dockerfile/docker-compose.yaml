@@ -1,0 +1,16 @@
+version: '3'
+services:
+  ros1:
+    image: ros:melodic
+    container_name: ros1_container
+    environment:
+      - DISPLAY=${DISPLAY}
+      - QT_X11_NO_MITSHM=1
+      - LANG=C.UTF-8
+      - LC_ALL=C.UTF-8
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix
+    network_mode: host
+    tty: true
+    stdin_open: true
+    command: bash
